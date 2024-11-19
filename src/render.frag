@@ -11,6 +11,9 @@ uniform int u_mouseClicked;
 uniform sampler2D u_canvasTexture;
 uniform sampler2D u_distanceFieldTexture;
 
+#define TAU 6.2831853f
+#define EPS 0.001f
+
 float brushRadius = 0.25f / min(u_resolution.x, u_resolution.y);
 
 float rand(vec2 co) {
@@ -30,8 +33,6 @@ vec4 raymarch() {
     int rayCount = 64;
     int maxSteps = 64;
 
-    const float TAU = 6.283185307179586f;
-
     vec2 fixedUv = (uv + 1.0f) / 2.0f;
     vec2 coord = fixedUv * vec2(u_resolution);
     
@@ -47,17 +48,17 @@ vec4 raymarch() {
 
     for (int i = 0; i < rayCount; i++) {
         float angle = tauOverRayCount * (float(i) + noise*5.0f);
-        vec2 rayDirectionUv = vec2(cos(angle), -sin(angle));
+        vec2 rayDirection = vec2(cos(angle), -sin(angle));
 
         vec2 sampleUv = fixedUv;
         
-        for (int step = 0; step < maxSteps; step++) {            
+        for (int step = 1; step < maxSteps; step++) {            
             float dist = texture(u_distanceFieldTexture, sampleUv).r;
-            sampleUv += rayDirectionUv * (dist + noise*0.01f);
+            sampleUv += rayDirection * (dist + noise*0.01f);
             if (outOfBounds(sampleUv)) break;
 
             vec4 sampleLight = texture(u_canvasTexture, sampleUv);
-            if (sampleLight.w > 0.1) {
+            if (sampleLight.a > 0.1) {
                 radiance += sampleLight;
                 break;
             }
@@ -68,7 +69,7 @@ vec4 raymarch() {
 
 void main() {
     if (distSquared(uv, u_mousePos) < brushRadius)
-        FragColor = vec4(1.0f, 0.992f, 0.933f, 1.0f); // Light color
+        FragColor = vec4(u_mousePos, 1.0f, 1.0f);
     else 
         FragColor = raymarch();
 }

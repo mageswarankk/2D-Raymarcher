@@ -12,9 +12,9 @@
 #include"vbo.h"
 #include"ebo.h"
 
-const int WINDOW_WIDTH  = 800;
+const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 800;
-const char* WINDOW_NAME = "Raymarching";
+const char* WINDOW_NAME = "Radiance Cascades";
 
 GLfloat vertices[] = {
 	-1.0f, -1.0f, 0.0f,	0.0f, 0.0f, 0.1f, 1.0f,	// 0
@@ -115,8 +115,8 @@ int main() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, canvasTexture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, canvasTexture, 0);
@@ -302,7 +302,7 @@ int main() {
 			currentInput = 2; // jfaTexture
 			currentOutput = (currentOutput == jfaFBO_B ? jfaFBO_A : jfaFBO_B);
 		}
-		
+
 		// PASS 4: Create distance field from the output of the Jump Flood Algorithm
 		glBindTexture(GL_TEXTURE_2D, distanceFieldTexture);
 		glBindFramebuffer(GL_FRAMEBUFFER, distanceFieldFBO);
