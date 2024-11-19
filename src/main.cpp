@@ -12,8 +12,8 @@
 #include"vbo.h"
 #include"ebo.h"
 
-const int WINDOW_WIDTH = 1080; //1280
-const int WINDOW_HEIGHT = 1080;
+const int WINDOW_WIDTH  = 800;
+const int WINDOW_HEIGHT = 800;
 const char* WINDOW_NAME = "Raymarching";
 
 GLfloat vertices[] = {

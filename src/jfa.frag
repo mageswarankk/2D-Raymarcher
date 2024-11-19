@@ -19,7 +19,7 @@ void main() {
 			vec2 sampleUv = uv + vec2(x,y) * u_offset / u_resolution;
 			vec2 fixedSampleUv = ((sampleUv + 1.0f) / 2.0f);
 
-			if (fixedSampleUv.x < -1.0 || fixedSampleUv.x > 1.0 || fixedSampleUv.y < -1.0 || fixedSampleUv.y > 1.0) { continue; }
+			if (fixedSampleUv.x < 0.0 || fixedSampleUv.x > 1.1 || fixedSampleUv.y < 0.0 || fixedSampleUv.y > 1.1) { continue; }
 
 			vec4 sampleValue = texture(u_inputTexture, fixedSampleUv);
 			vec2 sampleSeed = sampleValue.xy;

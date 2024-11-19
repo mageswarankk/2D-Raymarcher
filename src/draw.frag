@@ -33,7 +33,7 @@ void main() {
     if (u_mouseClicked == 1) {
         // Draw white
         if (sdfLineSquared(uv, u_lastMousePos, u_mousePos) <= brushRadius) {
-            current = vec4(1.0f, 0.992f, 0.933f, 1.0f);
+            current = vec4(u_mousePos, 1.0f, 1.0f);
         }
     }
     else if (u_mouseClicked == 2) {

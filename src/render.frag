@@ -46,7 +46,7 @@ vec4 raymarch() {
     vec4 radiance = vec4(0.0);
 
     for (int i = 0; i < rayCount; i++) {
-        float angle = tauOverRayCount * (float(i) + noise*10.0f);
+        float angle = tauOverRayCount * (float(i) + noise*5.0f);
         vec2 rayDirectionUv = vec2(cos(angle), -sin(angle));
 
         vec2 sampleUv = fixedUv;
@@ -55,7 +55,6 @@ vec4 raymarch() {
             float dist = texture(u_distanceFieldTexture, sampleUv).r;
             sampleUv += rayDirectionUv * (dist + noise*0.01f);
             if (outOfBounds(sampleUv)) break;
-
 
             vec4 sampleLight = texture(u_canvasTexture, sampleUv);
             if (sampleLight.w > 0.1) {
