@@ -1,6 +1,6 @@
 # 2D Raymarcher
 
-A simple 2D drawable surface implementing Raymarching lighting.
+A simple 2D drawable surface implementing real-time Raymarching lighting.
 
 TODO:
 - Implement Jump flood algorithm for performance optimization.
