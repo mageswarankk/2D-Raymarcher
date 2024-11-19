@@ -27,8 +27,8 @@ bool outOfBounds(vec2 uv) {
 }
 
 vec4 raymarch() {
-    int rayCount = 32;
-    int maxSteps = 32;
+    int rayCount = 64;
+    int maxSteps = 64;
 
     const float TAU = 6.283185307179586f;
 

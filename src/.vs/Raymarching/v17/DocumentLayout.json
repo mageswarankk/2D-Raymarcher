@@ -3,10 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:draw.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -18,33 +14,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAA4AAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAADIBAAAAAAAAAAAwwEgBAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-18T03:21:11.584Z",
               "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "draw.frag",
-              "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag",
-              "RelativeDocumentMoniker": "draw.frag",
-              "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag",
-              "RelativeToolTip": "draw.frag",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T07:32:54.772Z",
               "EditorCaption": ""
             }
           ]

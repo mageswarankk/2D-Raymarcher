@@ -31,7 +31,7 @@ void main() {
     vec2 fixedUv = ((uv + 1.0f) / 2.0f);
     vec4 current = texture(u_canvasTexture, fixedUv);
     if (u_mouseClicked == 1) {
-        // Draw white
+        // Draw light
         if (sdfLineSquared(uv, u_lastMousePos, u_mousePos) <= brushRadius) {
             current = vec4(u_mousePos, 1.0f, 1.0f);
         }
