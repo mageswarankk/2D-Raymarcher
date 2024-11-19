@@ -153,6 +153,8 @@
     <None Include="draw.vert" />
     <None Include="render.frag" />
     <None Include="render.vert" />
+    <None Include="uv.frag" />
+    <None Include="uv.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ebo.h" />

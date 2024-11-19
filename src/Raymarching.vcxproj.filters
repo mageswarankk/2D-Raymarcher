@@ -59,6 +59,12 @@
     <None Include="render.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="uv.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="uv.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">

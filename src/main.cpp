@@ -86,6 +86,8 @@ int main() {
 	// Initialize shader program
 	Shader drawShader("draw.vert", "draw.frag");
 	std::cout << "drawShader ID: " << drawShader.ID << std::endl;
+	Shader uvShader("uv.vert", "uv.frag");
+	std::cout << "uvShader.ID: " << uvShader.ID << std::endl;
 	Shader renderShader("render.vert", "render.frag");
 	std::cout << "renderShader ID: " << renderShader.ID << std::endl;
 
@@ -118,7 +120,28 @@ int main() {
 
 	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "Error: Framebuffer is not complete!" << std::endl;
+		std::cout << "Error: Canvas Framebuffer is not complete!" << std::endl;
+	}
+
+	// Create FBO to save the canvas uv map texture
+	GLuint uvMapFBO, uvMapTexture;
+	glGenFramebuffers(1, &uvMapFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, uvMapFBO);
+
+	// Create the texture to store the canvas uv map
+	glGenTextures(1, &uvMapTexture);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, uvMapTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, uvMapTexture, 0);
+
+	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "Error: UV map Framebuffer is not complete!" << std::endl;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -131,10 +154,14 @@ int main() {
 	GLuint u_mouseClick_draw = glGetUniformLocation(drawShader.ID, "u_mouseClicked");
 	GLuint u_canvasTexture_draw = glGetUniformLocation(drawShader.ID, "u_canvasTexture");
 
+	GLuint u_resolution_uv = glGetUniformLocation(uvShader.ID, "u_resolution");
+	GLuint u_canvasTexture_uv = glGetUniformLocation(uvShader.ID, "u_canvasTexture");
+
 	GLuint u_resolution_render = glGetUniformLocation(renderShader.ID, "u_resolution");
 	GLuint u_mousePos_render = glGetUniformLocation(renderShader.ID, "u_mousePos");
 	GLuint u_mouseClick_render = glGetUniformLocation(renderShader.ID, "u_mouseClicked");
 	GLuint u_canvasTexture_render = glGetUniformLocation(renderShader.ID, "u_canvasTexture");
+	GLuint u_uvMapTexture_render = glGetUniformLocation(renderShader.ID, "u_uvMapTexture");
 
 	// Main render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -158,7 +185,26 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		VAO1.unbindVAO();
 
-		// STEP 2: Raymarch and render the scene to the default framebuffer
+		// STEP 2: Render UV map to serve as seed input for the Jump Flood Algorithm
+		glBindTexture(GL_TEXTURE_2D, uvMapTexture);
+		glBindFramebuffer(GL_FRAMEBUFFER, uvMapFBO);
+
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		uvShader.activateShader();
+
+		glUniform2i(u_resolution_uv, WINDOW_WIDTH, WINDOW_HEIGHT);
+		glUniform1i(u_canvasTexture_uv, 0);
+
+		VAO1.bindVAO();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		VAO1.unbindVAO();
+
+		// STEP 3: Run the Jump Flood Algorithm to generate the distance field
+		// TODO
+
+		// STEP 4: Finally, raymarch and render the scene to the default framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -170,6 +216,7 @@ int main() {
 		glUniform2f(u_mousePos_render, mouseX, mouseY);
 		glUniform1i(u_mouseClick_render, mouseClicked);
 		glUniform1i(u_canvasTexture_render, 0);
+		glUniform1i(u_uvMapTexture_render, 1);
 
 		VAO1.bindVAO();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
