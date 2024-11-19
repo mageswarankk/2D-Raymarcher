@@ -65,6 +65,18 @@
     <None Include="uv.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="jfa.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="jfa.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="dist.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="dist.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">

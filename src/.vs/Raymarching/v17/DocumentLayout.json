@@ -9,22 +9,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:uv.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:uv.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:draw.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\render.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{B4B8CCD0-3554-4532-ABC0-B25B87CC962F}|Raymarching.vcxproj|solutionrelative:render.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -44,49 +28,10 @@
               "RelativeDocumentMoniker": "main.cpp",
               "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\main.cpp",
               "RelativeToolTip": "main.cpp",
-              "ViewState": "AgIAAMkAAAAAAAAAAAAAAJ4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAA8AAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-18T03:21:11.584Z",
               "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "draw.frag",
-              "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag",
-              "RelativeDocumentMoniker": "draw.frag",
-              "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\draw.frag",
-              "RelativeToolTip": "draw.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T01:40:55.244Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "uv.frag",
-              "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.frag",
-              "RelativeDocumentMoniker": "uv.frag",
-              "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.frag",
-              "RelativeToolTip": "uv.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T01:43:11.533Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "uv.vert",
-              "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.vert",
-              "RelativeDocumentMoniker": "uv.vert",
-              "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\uv.vert",
-              "RelativeToolTip": "uv.vert",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T01:43:05.882Z",
               "EditorCaption": ""
             },
             {
@@ -97,22 +42,9 @@
               "RelativeDocumentMoniker": "render.frag",
               "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\render.frag",
               "RelativeToolTip": "render.frag",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T01:22:33.374Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "render.vert",
-              "DocumentMoniker": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\render.vert",
-              "RelativeDocumentMoniker": "render.vert",
-              "ToolTip": "C:\\Users\\mages\\Documents\\Research\\Code\\Projects\\2D-Raymarcher\\src\\render.vert",
-              "RelativeToolTip": "render.vert",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-19T01:22:33.451Z",
+              "WhenOpened": "2024-11-19T06:50:56.9Z",
               "EditorCaption": ""
             }
           ]

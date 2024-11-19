@@ -149,8 +149,12 @@
   <ItemGroup>
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="dist.frag" />
+    <None Include="dist.vert" />
     <None Include="draw.frag" />
     <None Include="draw.vert" />
+    <None Include="jfa.frag" />
+    <None Include="jfa.vert" />
     <None Include="render.frag" />
     <None Include="render.vert" />
     <None Include="uv.frag" />

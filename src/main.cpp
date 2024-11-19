@@ -1,15 +1,19 @@
 #include<iostream>
+
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include<stb/stb_image.h>
+
+#include <cmath>
+#include <algorithm>
 
 #include"shader.h"
 #include"vao.h"
 #include"vbo.h"
 #include"ebo.h"
 
-const int WINDOW_WIDTH = 720; //1280
-const int WINDOW_HEIGHT = 720;
+const int WINDOW_WIDTH = 1080; //1280
+const int WINDOW_HEIGHT = 1080;
 const char* WINDOW_NAME = "Raymarching";
 
 GLfloat vertices[] = {
@@ -85,11 +89,10 @@ int main() {
 
 	// Initialize shader program
 	Shader drawShader("draw.vert", "draw.frag");
-	std::cout << "drawShader ID: " << drawShader.ID << std::endl;
 	Shader uvShader("uv.vert", "uv.frag");
-	std::cout << "uvShader.ID: " << uvShader.ID << std::endl;
+	Shader jfaShader("jfa.vert", "jfa.frag");
+	Shader distShader("dist.vert", "dist.frag");
 	Shader renderShader("render.vert", "render.frag");
-	std::cout << "renderShader ID: " << renderShader.ID << std::endl;
 
 	// Create VAO, VBO, and EBO for triangles
 	VAO VAO1;
@@ -120,7 +123,7 @@ int main() {
 
 	auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "Error: Canvas Framebuffer is not complete!" << std::endl;
+		std::cout << "Error: Canvas framebuffer is not complete!" << std::endl;
 	}
 
 	// Create FBO to save the canvas uv map texture
@@ -133,15 +136,77 @@ int main() {
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, uvMapTexture);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, uvMapTexture, 0);
 
 	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-		std::cout << "Error: UV map Framebuffer is not complete!" << std::endl;
+		std::cout << "Error: UV map framebuffer is not complete!" << std::endl;
+	}
+
+	// Create FBOs for the jfa algorithm
+	GLuint framebuffers[2];
+	glGenFramebuffers(2, framebuffers);
+
+	GLuint jfaFBO_A = framebuffers[0];
+	GLuint jfaFBO_B = framebuffers[1];
+	glBindFramebuffer(GL_FRAMEBUFFER, jfaFBO_A);
+
+	// Create the texture to store the jfa field
+	GLuint jfaTexture;
+	glGenTextures(1, &jfaTexture);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, jfaTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, jfaTexture, 0);
+
+	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "Error: JFA framebuffer A is not complete!" << std::endl;
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, jfaFBO_B);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, jfaTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, jfaTexture, 0);
+
+	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "Error: JFA framebuffer B is not complete!" << std::endl;
+	}
+
+	// Create FBO to save the distance field texture
+	GLuint distanceFieldFBO, distanceFieldTexture;
+	glGenFramebuffers(1, &distanceFieldFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, distanceFieldFBO);
+
+	// Create the texture to store the distance field
+	glGenTextures(1, &distanceFieldTexture);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, distanceFieldTexture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, WINDOW_WIDTH, WINDOW_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, distanceFieldTexture, 0);
+
+	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+		std::cout << "Error: Distance field framebuffer is not complete!" << std::endl;
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -157,17 +222,26 @@ int main() {
 	GLuint u_resolution_uv = glGetUniformLocation(uvShader.ID, "u_resolution");
 	GLuint u_canvasTexture_uv = glGetUniformLocation(uvShader.ID, "u_canvasTexture");
 
+	GLuint u_resolution_jfa = glGetUniformLocation(jfaShader.ID, "u_resolution");
+	GLuint u_inputTexture_jfa = glGetUniformLocation(jfaShader.ID, "u_inputTexture");
+	GLuint u_offset_jfa = glGetUniformLocation(jfaShader.ID, "u_offset");
+
+	GLuint u_jfaTexture_dist = glGetUniformLocation(distShader.ID, "u_jfaTexture");
+
 	GLuint u_resolution_render = glGetUniformLocation(renderShader.ID, "u_resolution");
 	GLuint u_mousePos_render = glGetUniformLocation(renderShader.ID, "u_mousePos");
 	GLuint u_mouseClick_render = glGetUniformLocation(renderShader.ID, "u_mouseClicked");
 	GLuint u_canvasTexture_render = glGetUniformLocation(renderShader.ID, "u_canvasTexture");
-	GLuint u_uvMapTexture_render = glGetUniformLocation(renderShader.ID, "u_uvMapTexture");
+	GLuint u_distanceFieldTexture_render = glGetUniformLocation(renderShader.ID, "u_distanceFieldTexture");
+
+	// Some Jump Flood Algorithm parameters
+	const int passes = std::ceil(std::log2(std::max(WINDOW_WIDTH, WINDOW_HEIGHT)));
 
 	// Main render loop
 	while (!glfwWindowShouldClose(window)) {
 		updateFPS();
 
-		// STEP 1: Render brush strokes to canvas texture
+		// PASS 1: Render brush strokes to canvas texture
 		glBindTexture(GL_TEXTURE_2D, canvasTexture);
 		glBindFramebuffer(GL_FRAMEBUFFER, canvasFBO);
 
@@ -185,11 +259,11 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		VAO1.unbindVAO();
 
-		// STEP 2: Render UV map to serve as seed input for the Jump Flood Algorithm
+		// PASS 2: Render UV map to serve as seed input for the Jump Flood Algorithm
 		glBindTexture(GL_TEXTURE_2D, uvMapTexture);
 		glBindFramebuffer(GL_FRAMEBUFFER, uvMapFBO);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		uvShader.activateShader();
@@ -201,10 +275,50 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		VAO1.unbindVAO();
 
-		// STEP 3: Run the Jump Flood Algorithm to generate the distance field
-		// TODO
+		// PASS 3: Run the Jump Flood Algorithm to generate a distance UV map
+		glBindTexture(GL_TEXTURE_2D, jfaTexture);
+		glBindFramebuffer(GL_FRAMEBUFFER, jfaFBO_A);
 
-		// STEP 4: Finally, raymarch and render the scene to the default framebuffer
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		jfaShader.activateShader();
+		glUniform2i(u_resolution_jfa, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		GLuint currentInput = 1; // uvMapTexture
+		GLuint currentOutput = jfaFBO_A;
+
+		for (int i = 0; i < passes; i++) {
+			glUniform1i(u_inputTexture_jfa, currentInput);
+			glUniform1i(u_offset_jfa, std::pow(2, passes - i - 1));
+
+			glBindFramebuffer(GL_FRAMEBUFFER, currentOutput);
+			glBindTexture(GL_TEXTURE_2D, jfaTexture);
+
+			VAO1.bindVAO();
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			VAO1.unbindVAO();
+
+			currentInput = 2; // jfaTexture
+			currentOutput = (currentOutput == jfaFBO_B ? jfaFBO_A : jfaFBO_B);
+		}
+		
+		// PASS 4: Create distance field from the output of the Jump Flood Algorithm
+		glBindTexture(GL_TEXTURE_2D, distanceFieldTexture);
+		glBindFramebuffer(GL_FRAMEBUFFER, distanceFieldFBO);
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		distShader.activateShader();
+
+		glUniform1i(u_jfaTexture_dist, 2);
+
+		VAO1.bindVAO();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		VAO1.unbindVAO();
+
+		// PASS 5: Finally, raymarch and render the scene to the default framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -216,7 +330,7 @@ int main() {
 		glUniform2f(u_mousePos_render, mouseX, mouseY);
 		glUniform1i(u_mouseClick_render, mouseClicked);
 		glUniform1i(u_canvasTexture_render, 0);
-		glUniform1i(u_uvMapTexture_render, 1);
+		glUniform1i(u_distanceFieldTexture_render, 3);
 
 		VAO1.bindVAO();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
