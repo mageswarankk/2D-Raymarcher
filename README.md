@@ -9,7 +9,6 @@ TODO:
 - Add UI elements to tweak performance settings (ray count, ray length, etc.)
 - (Eventually) Radiance Cascades!!!
 
-![image](https://github.com/user-attachments/assets/10488f82-daf9-4a15-8c53-779e3e3648e2)
 
 
-
+https://github.com/user-attachments/assets/6559cf84-b81e-489f-a20e-f838f27cdc3c
